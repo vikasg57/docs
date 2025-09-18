@@ -1,0 +1,2916 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Hunar Voice Agents API",
+    "version": "1.0.0",
+    "description": "External API for voice agent operations"
+  },
+  "paths": {
+    "/api/v1/auth/login/": {
+      "post": {
+        "operationId": "authentication_login_0bd62379",
+        "summary": "Login",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "JWT Login endpoint for header-based authentication",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginInputSchema"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/api/v1/auth/refresh/": {
+      "post": {
+        "operationId": "authentication_refresh_7a63096e",
+        "summary": "Refresh",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "JWT Refresh token endpoint for header-based authentication",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenInputSchema"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/api/v1/auth/logout/": {
+      "post": {
+        "operationId": "authentication_logout_bcfdac2b",
+        "summary": "Logout",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "title": "Response",
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "description": "JWT Logout endpoint for header-based authentication",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutInputSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/": {
+      "post": {
+        "operationId": "organizationapi_create_organization_8d57a22d",
+        "summary": "Create Organization",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganizationResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "Create a new organization with unique slug generation",
+        "tags": [
+          "Organizations"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrganizationSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "organizationapi_list_organizations_fca140fb",
+        "summary": "List Organizations",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "default": 1,
+              "exclusiveMinimum": 0,
+              "title": "Page",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "schema": {
+              "default": 10,
+              "exclusiveMaximum": 201,
+              "exclusiveMinimum": 0,
+              "title": "Page Size",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponseSchema_OrganizationResponseSchema_"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get list of organizations",
+        "tags": [
+          "Organizations"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{organization_id}/": {
+      "get": {
+        "operationId": "organizationapi_get_organization_787e3ed0",
+        "summary": "Get Organization",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganizationResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get organization by ID",
+        "tags": [
+          "Organizations"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "organizationapi_update_organization_0e2a8561",
+        "summary": "Update Organization",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganizationResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "Update an organization",
+        "tags": [
+          "Organizations"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrganizationSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{organization_id}/activate/": {
+      "patch": {
+        "operationId": "organizationapi_activate_organization_022b0865",
+        "summary": "Activate Organization",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Activate an organization",
+        "tags": [
+          "Organizations"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{organization_id}/deactivate/": {
+      "patch": {
+        "operationId": "organizationapi_deactivate_organization_8580eff5",
+        "summary": "Deactivate Organization",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Activate an organization",
+        "tags": [
+          "Organizations"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{organization_id}/members/": {
+      "get": {
+        "operationId": "memberapi_list_members_aa57ad2d",
+        "summary": "List Members",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "default": 1,
+              "exclusiveMinimum": 0,
+              "title": "Page",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "schema": {
+              "default": 10,
+              "exclusiveMaximum": 201,
+              "exclusiveMinimum": 0,
+              "title": "Page Size",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponseSchema_MemberResponseSchema_"
+                }
+              }
+            }
+          }
+        },
+        "description": "List all members for a organization.",
+        "tags": [
+          "Members"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "memberapi_create_member_0ca089c7",
+        "summary": "Create Member",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "Create a new member",
+        "tags": [
+          "Members"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMemberSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{organization_id}/members/{member_id}/": {
+      "get": {
+        "operationId": "memberapi_get_member_c0c0f407",
+        "summary": "Get Member",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "member_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Member Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get a member",
+        "tags": [
+          "Members"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "memberapi_update_member_7e7752d0",
+        "summary": "Update Member",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "member_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Member Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "Update a member",
+        "tags": [
+          "Members"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMemberSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/password/request-reset": {
+      "post": {
+        "operationId": "passwordapi_request_password_reset_7f463a34",
+        "summary": "Request Password Reset",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Request password reset for existing user (public endpoint)",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordRequestInputSchema"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/api/v1/auth/password/reset": {
+      "post": {
+        "operationId": "passwordapi_reset_password_2b32ca5a",
+        "summary": "Reset Password",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response",
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "description": "Change password using token (for both set and reset)",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordInputSchema"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{organization_id}/campaigns/": {
+      "post": {
+        "operationId": "campaignapi_create_campaign_8a5478d7",
+        "summary": "Create Campaign",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CampaignDetailResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "Create a new campaign for an organization",
+        "tags": [
+          "Campaigns"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "file": {
+                    "format": "binary",
+                    "title": "File",
+                    "type": "string"
+                  },
+                  "data": {
+                    "$ref": "#/components/schemas/CampaignCreateSchema"
+                  }
+                },
+                "required": [
+                  "file",
+                  "data"
+                ],
+                "title": "MultiPartBodyParams",
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "campaignapi_list_campaigns_e8eb22d7",
+        "summary": "List Campaigns",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "default": 1,
+              "exclusiveMinimum": 0,
+              "title": "Page",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "schema": {
+              "default": 10,
+              "exclusiveMaximum": 201,
+              "exclusiveMinimum": 0,
+              "title": "Page Size",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponseSchema_CampaignListResponseSchema_"
+                }
+              }
+            }
+          }
+        },
+        "description": "List all campaigns for an organization",
+        "tags": [
+          "Campaigns"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{organization_id}/campaigns/{campaign_id}/": {
+      "get": {
+        "operationId": "campaignapi_get_campaign_3176f58f",
+        "summary": "Get Campaign",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "campaign_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Campaign Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CampaignDetailResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get a specific campaign by ID",
+        "tags": [
+          "Campaigns"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{organization_id}/campaigns/{campaign_id}/activate/": {
+      "patch": {
+        "operationId": "campaignapi_activate_campaign_87c7902e",
+        "summary": "Activate Campaign",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "campaign_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Campaign Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Activate a campaign",
+        "tags": [
+          "Campaigns"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{organization_id}/campaigns/{campaign_id}/deactivate/": {
+      "patch": {
+        "operationId": "campaignapi_deactivate_campaign_60ca6a00",
+        "summary": "Deactivate Campaign",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "campaign_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Campaign Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Deactivate a campaign",
+        "tags": [
+          "Campaigns"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{organization_id}/calls/{campaign_id}/schedule/": {
+      "post": {
+        "operationId": "call_schedule_call_ed4e6985",
+        "summary": "Schedule Call",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "campaign_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Campaign Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response",
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "description": "Schedule a call",
+        "tags": [
+          "Calls"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{organization_id}/calls/": {
+      "get": {
+        "operationId": "call_list_calls_1c63e6d2",
+        "summary": "List Calls",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "title": "Status",
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "language",
+            "schema": {
+              "title": "Language",
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "default": 1,
+              "exclusiveMinimum": 0,
+              "title": "Page",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "schema": {
+              "default": 100,
+              "exclusiveMaximum": 201,
+              "exclusiveMinimum": 0,
+              "title": "Page Size",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponseSchema_CallResponseSchema_"
+                }
+              }
+            }
+          }
+        },
+        "description": "List calls with filtering",
+        "tags": [
+          "Calls"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{organization_id}/calls/{call_id}/": {
+      "get": {
+        "operationId": "call_get_call_ec38e258",
+        "summary": "Get Call",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "call_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Call Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CallResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get specific call",
+        "tags": [
+          "Calls"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{organization_id}/agents/": {
+      "get": {
+        "operationId": "agent_list_agents_298eeef3",
+        "summary": "List Agents",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "q": [
+                "name__icontains"
+              ],
+              "title": "Search"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "language",
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/VoiceCallLanguage"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Language for the agent"
+            },
+            "required": false,
+            "description": "Language for the agent"
+          },
+          {
+            "in": "query",
+            "name": "is_result_generation_enabled",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Whether result generation is enabled",
+              "title": "Is Result Generation Enabled"
+            },
+            "required": false,
+            "description": "Whether result generation is enabled"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "default": 1,
+              "exclusiveMinimum": 0,
+              "title": "Page",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "schema": {
+              "default": 20,
+              "exclusiveMaximum": 201,
+              "exclusiveMinimum": 0,
+              "title": "Page Size",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponseSchema_AgentListResponseSchema_"
+                }
+              }
+            }
+          }
+        },
+        "description": "List agents with filtering and pagination",
+        "tags": [
+          "Agents"
+        ]
+      },
+      "post": {
+        "operationId": "agent_create_agent_6774229b",
+        "summary": "Create Agent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentDetailResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "Create a new agent",
+        "tags": [
+          "Agents"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentCreateSchema"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{organization_id}/agents/{agent_id}": {
+      "get": {
+        "operationId": "agent_get_agent_2f3f262d",
+        "summary": "Get Agent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "agent_id",
+            "schema": {
+              "title": "Agent Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentDetailResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get a specific agent",
+        "tags": [
+          "Agents"
+        ]
+      },
+      "put": {
+        "operationId": "agent_update_agent_cf39a39d",
+        "summary": "Update Agent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "agent_id",
+            "schema": {
+              "title": "Agent Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentDetailResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "Update an existing agent",
+        "tags": [
+          "Agents"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentUpdateSchema"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "delete": {
+        "operationId": "agent_delete_agent_9ee2a388",
+        "summary": "Delete Agent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "agent_id",
+            "schema": {
+              "title": "Agent Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Delete an agent",
+        "tags": [
+          "Agents"
+        ]
+      }
+    },
+    "/api/v1/organizations/{organization_id}/agents/{agent_id}/duplicate": {
+      "post": {
+        "operationId": "agent_duplicate_agent_c3c507ac",
+        "summary": "Duplicate Agent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organization_id",
+            "schema": {
+              "title": "Organization Id",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "agent_id",
+            "schema": {
+              "title": "Agent Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentDetailResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "Duplicate an existing agent",
+        "tags": [
+          "Agents"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TokenResponseSchema": {
+        "properties": {
+          "access": {
+            "title": "Access",
+            "type": "string"
+          },
+          "refresh": {
+            "title": "Refresh",
+            "type": "string"
+          },
+          "organization_id": {
+            "format": "uuid",
+            "title": "Organization Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "access",
+          "refresh",
+          "organization_id"
+        ],
+        "title": "TokenResponseSchema",
+        "type": "object"
+      },
+      "LoginInputSchema": {
+        "properties": {
+          "email": {
+            "format": "email",
+            "title": "Email",
+            "type": "string"
+          },
+          "password": {
+            "title": "Password",
+            "type": "string"
+          },
+          "organization_slug": {
+            "title": "Organization Slug",
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "password",
+          "organization_slug"
+        ],
+        "title": "LoginInputSchema",
+        "type": "object"
+      },
+      "RefreshTokenInputSchema": {
+        "properties": {
+          "refresh": {
+            "title": "Refresh",
+            "type": "string"
+          }
+        },
+        "required": [
+          "refresh"
+        ],
+        "title": "RefreshTokenInputSchema",
+        "type": "object"
+      },
+      "LogoutInputSchema": {
+        "properties": {
+          "access": {
+            "title": "Access",
+            "type": "string"
+          },
+          "refresh": {
+            "title": "Refresh",
+            "type": "string"
+          },
+          "organization_id": {
+            "format": "uuid",
+            "title": "Organization Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "access",
+          "refresh",
+          "organization_id"
+        ],
+        "title": "LogoutInputSchema",
+        "type": "object"
+      },
+      "OrganizationResponseSchema": {
+        "description": "Response schema for organization data",
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "slug": {
+            "title": "Slug",
+            "type": "string"
+          },
+          "settings": {
+            "additionalProperties": true,
+            "title": "Settings",
+            "type": "object"
+          },
+          "is_active": {
+            "title": "Is Active",
+            "type": "boolean"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "settings",
+          "is_active",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "OrganizationResponseSchema",
+        "type": "object"
+      },
+      "CreateOrganizationSchema": {
+        "description": "Schema for creating a new organization",
+        "properties": {
+          "name": {
+            "maxLength": 64,
+            "minLength": 3,
+            "title": "Name",
+            "type": "string"
+          },
+          "slug": {
+            "maxLength": 64,
+            "minLength": 3,
+            "title": "Slug",
+            "type": "string"
+          },
+          "settings": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": {},
+            "title": "Settings"
+          },
+          "is_active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": true,
+            "title": "Is Active"
+          }
+        },
+        "required": [
+          "name",
+          "slug"
+        ],
+        "title": "CreateOrganizationSchema",
+        "type": "object"
+      },
+      "DynamicInput": {
+        "properties": {
+          "page": {
+            "default": 1,
+            "exclusiveMinimum": 0,
+            "title": "Page",
+            "type": "integer"
+          },
+          "page_size": {
+            "default": 20,
+            "exclusiveMaximum": 201,
+            "exclusiveMinimum": 0,
+            "title": "Page Size",
+            "type": "integer"
+          }
+        },
+        "title": "DynamicInput",
+        "type": "object"
+      },
+      "PaginatedResponseSchema_OrganizationResponseSchema_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "next": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next"
+          },
+          "previous": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Previous"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/OrganizationResponseSchema"
+            },
+            "title": "Results",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "next",
+          "previous",
+          "results"
+        ],
+        "title": "PaginatedResponseSchema[OrganizationResponseSchema]",
+        "type": "object"
+      },
+      "UpdateOrganizationSchema": {
+        "description": "Schema for updating an organization",
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "settings": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Settings"
+          }
+        },
+        "title": "UpdateOrganizationSchema",
+        "type": "object"
+      },
+      "MemberResponseSchema": {
+        "description": "Schema for response of a member",
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "role": {
+            "$ref": "#/components/schemas/MemberRoleEnum"
+          },
+          "mobile_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {}
+            ],
+            "title": "Mobile Number"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "organization_id": {
+            "format": "uuid",
+            "title": "Organization Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "role",
+          "mobile_number",
+          "created_at",
+          "updated_at",
+          "organization_id"
+        ],
+        "title": "MemberResponseSchema",
+        "type": "object"
+      },
+      "MemberRoleEnum": {
+        "enum": [
+          "OWNER",
+          "ADMIN",
+          "MEMBER"
+        ],
+        "title": "MemberRoleEnum",
+        "type": "string"
+      },
+      "PaginatedResponseSchema_MemberResponseSchema_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "next": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next"
+          },
+          "previous": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Previous"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/MemberResponseSchema"
+            },
+            "title": "Results",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "next",
+          "previous",
+          "results"
+        ],
+        "title": "PaginatedResponseSchema[MemberResponseSchema]",
+        "type": "object"
+      },
+      "CreateMemberSchema": {
+        "description": "Schema for creating a new member",
+        "properties": {
+          "email": {
+            "format": "email",
+            "title": "Email",
+            "type": "string"
+          },
+          "mobile_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {}
+            ],
+            "title": "Mobile Number"
+          },
+          "first_name": {
+            "title": "First Name",
+            "type": "string"
+          },
+          "last_name": {
+            "title": "Last Name",
+            "type": "string"
+          },
+          "role": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MemberRoleEnum"
+              }
+            ],
+            "default": "MEMBER"
+          }
+        },
+        "required": [
+          "email",
+          "mobile_number",
+          "first_name",
+          "last_name"
+        ],
+        "title": "CreateMemberSchema",
+        "type": "object"
+      },
+      "UpdateMemberSchema": {
+        "description": "Schema for updating a member",
+        "properties": {
+          "mobile_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {}
+            ],
+            "title": "Mobile Number"
+          },
+          "first_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Name"
+          },
+          "last_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Name"
+          },
+          "role": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MemberRoleEnum"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "title": "UpdateMemberSchema",
+        "type": "object"
+      },
+      "ResetPasswordRequestInputSchema": {
+        "description": "Schema for requesting password reset",
+        "properties": {
+          "email": {
+            "format": "email",
+            "title": "Email",
+            "type": "string"
+          }
+        },
+        "required": [
+          "email"
+        ],
+        "title": "ResetPasswordRequestInputSchema",
+        "type": "object"
+      },
+      "ResetPasswordInputSchema": {
+        "description": "Schema for resetting password",
+        "properties": {
+          "token": {
+            "title": "Token",
+            "type": "string"
+          },
+          "password": {
+            "description": "Password must be at least 8 characters long",
+            "minLength": 8,
+            "title": "Password",
+            "type": "string"
+          },
+          "confirm_password": {
+            "description": "Password confirmation",
+            "title": "Confirm Password",
+            "type": "string"
+          }
+        },
+        "required": [
+          "token",
+          "password",
+          "confirm_password"
+        ],
+        "title": "ResetPasswordInputSchema",
+        "type": "object"
+      },
+      "AgentBaseResponseSchema": {
+        "description": "Base schema for Agent with common fields",
+        "properties": {
+          "id": {
+            "description": "Unique identifier",
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "description": "Agent name",
+            "title": "Name",
+            "type": "string"
+          },
+          "voice_persona": {
+            "description": "Voice persona",
+            "title": "Voice Persona",
+            "type": "string"
+          },
+          "voice_name": {
+            "description": "Voice name for the agent",
+            "title": "Voice Name",
+            "type": "string"
+          },
+          "language": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VoiceCallLanguage"
+              }
+            ],
+            "default": "ENGLISH",
+            "description": "Language for the agent"
+          },
+          "custom_variables": {
+            "description": "Custom variables for the agent",
+            "items": {
+              "type": "string"
+            },
+            "title": "Custom Variables",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "voice_persona",
+          "voice_name"
+        ],
+        "title": "AgentBaseResponseSchema",
+        "type": "object"
+      },
+      "BaseUserSchema": {
+        "description": "Base schema for User with common fields",
+        "properties": {
+          "email": {
+            "description": "User email",
+            "format": "email",
+            "title": "Email",
+            "type": "string"
+          }
+        },
+        "required": [
+          "email"
+        ],
+        "title": "BaseUserSchema",
+        "type": "object"
+      },
+      "CampaignDetailResponseSchema": {
+        "description": "Schema for Campaign response",
+        "properties": {
+          "id": {
+            "description": "Unique identifier",
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "description": "Campaign name",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/CampaignStatus",
+            "description": "Campaign status"
+          },
+          "agent": {
+            "$ref": "#/components/schemas/AgentBaseResponseSchema",
+            "description": "Agent"
+          },
+          "description": {
+            "description": "Campaign description",
+            "title": "Description",
+            "type": "string"
+          },
+          "metadata": {
+            "additionalProperties": true,
+            "description": "Additional metadata for the campaign",
+            "title": "Metadata",
+            "type": "object"
+          },
+          "is_active": {
+            "default": true,
+            "description": "Whether the campaign is active",
+            "title": "Is Active",
+            "type": "boolean"
+          },
+          "created_at": {
+            "description": "Creation timestamp",
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "created_by": {
+            "$ref": "#/components/schemas/BaseUserSchema",
+            "description": "User who created the campaign"
+          },
+          "updated_at": {
+            "description": "Last update timestamp",
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "updated_by": {
+            "$ref": "#/components/schemas/BaseUserSchema",
+            "description": "User who updated the campaign"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "status",
+          "agent",
+          "description",
+          "created_at",
+          "created_by",
+          "updated_at",
+          "updated_by"
+        ],
+        "title": "CampaignDetailResponseSchema",
+        "type": "object"
+      },
+      "CampaignStatus": {
+        "enum": [
+          "SCHEDULED",
+          "NOT_STARTED",
+          "IN_PROGRESS",
+          "COMPLETED",
+          "FAILED",
+          "CANCELED"
+        ],
+        "title": "CampaignStatus",
+        "type": "string"
+      },
+      "VoiceCallLanguage": {
+        "enum": [
+          "ENGLISH",
+          "HINDI",
+          "TAMIL",
+          "TURKISH",
+          "SPANISH",
+          "KANNADA",
+          "MARATHI"
+        ],
+        "title": "VoiceCallLanguage",
+        "type": "string"
+      },
+      "CampaignCreateSchema": {
+        "description": "Schema for creating a new Campaign",
+        "properties": {
+          "name": {
+            "description": "Campaign name",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "agent_id": {
+            "description": "Agent ID",
+            "format": "uuid",
+            "title": "Agent Id",
+            "type": "string"
+          },
+          "description": {
+            "description": "Campaign description",
+            "title": "Description",
+            "type": "string"
+          },
+          "column_mapping": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Custom mapping for the custom variables",
+            "title": "Column Mapping",
+            "type": "object"
+          },
+          "skip_invalid_rows": {
+            "default": false,
+            "description": "Whether to skip invalid rows",
+            "title": "Skip Invalid Rows",
+            "type": "boolean"
+          },
+          "skip_duplicate_phone_numbers": {
+            "default": false,
+            "description": "Whether to skip duplicate phone numbers",
+            "title": "Skip Duplicate Phone Numbers",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name",
+          "agent_id",
+          "description"
+        ],
+        "title": "CampaignCreateSchema",
+        "type": "object"
+      },
+      "CampaignListResponseSchema": {
+        "description": "Schema for listing Campaigns",
+        "properties": {
+          "id": {
+            "description": "Unique identifier",
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "description": "Campaign name",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/CampaignStatus",
+            "description": "Campaign status"
+          },
+          "agent": {
+            "$ref": "#/components/schemas/AgentBaseResponseSchema",
+            "description": "Agent"
+          },
+          "description": {
+            "description": "Campaign description",
+            "title": "Description",
+            "type": "string"
+          },
+          "metadata": {
+            "additionalProperties": true,
+            "description": "Additional metadata for the campaign",
+            "title": "Metadata",
+            "type": "object"
+          },
+          "is_active": {
+            "default": true,
+            "description": "Whether the campaign is active",
+            "title": "Is Active",
+            "type": "boolean"
+          },
+          "created_at": {
+            "description": "Creation timestamp",
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "created_by": {
+            "$ref": "#/components/schemas/BaseUserSchema",
+            "description": "User who created the campaign"
+          },
+          "updated_at": {
+            "description": "Last update timestamp",
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "updated_by": {
+            "$ref": "#/components/schemas/BaseUserSchema",
+            "description": "User who updated the campaign"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "status",
+          "agent",
+          "description",
+          "created_at",
+          "created_by",
+          "updated_at",
+          "updated_by"
+        ],
+        "title": "CampaignListResponseSchema",
+        "type": "object"
+      },
+      "PaginatedResponseSchema_CampaignListResponseSchema_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "next": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next"
+          },
+          "previous": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Previous"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/CampaignListResponseSchema"
+            },
+            "title": "Results",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "next",
+          "previous",
+          "results"
+        ],
+        "title": "PaginatedResponseSchema[CampaignListResponseSchema]",
+        "type": "object"
+      },
+      "CallResponseSchema": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "recording_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recording Url"
+          },
+          "duration_minutes": {
+            "title": "Duration Minutes",
+            "type": "number"
+          },
+          "duration_seconds": {
+            "title": "Duration Seconds",
+            "type": "number"
+          },
+          "call_ended_by": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Call Ended By"
+          },
+          "result": {
+            "additionalProperties": true,
+            "title": "Result",
+            "type": "object"
+          },
+          "metadata": {
+            "additionalProperties": true,
+            "title": "Metadata",
+            "type": "object"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "recording_url",
+          "duration_minutes",
+          "duration_seconds",
+          "call_ended_by",
+          "result",
+          "metadata",
+          "created_at"
+        ],
+        "title": "CallResponseSchema",
+        "type": "object"
+      },
+      "PaginatedResponseSchema_CallResponseSchema_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "next": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next"
+          },
+          "previous": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Previous"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/CallResponseSchema"
+            },
+            "title": "Results",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "next",
+          "previous",
+          "results"
+        ],
+        "title": "PaginatedResponseSchema[CallResponseSchema]",
+        "type": "object"
+      },
+      "AgentFilterSchema": {
+        "properties": {
+          "search": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "q": [
+              "name__icontains"
+            ],
+            "title": "Search"
+          },
+          "language": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/VoiceCallLanguage"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Language for the agent"
+          },
+          "is_result_generation_enabled": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Whether result generation is enabled",
+            "title": "Is Result Generation Enabled"
+          }
+        },
+        "title": "AgentFilterSchema",
+        "type": "object"
+      },
+      "AgentListResponseSchema": {
+        "description": "Schema for listing Agents",
+        "properties": {
+          "id": {
+            "description": "Unique identifier",
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "description": "Agent name",
+            "title": "Name",
+            "type": "string"
+          },
+          "voice_persona": {
+            "description": "Voice persona",
+            "title": "Voice Persona",
+            "type": "string"
+          },
+          "voice_name": {
+            "description": "Voice name for the agent",
+            "title": "Voice Name",
+            "type": "string"
+          },
+          "language": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VoiceCallLanguage"
+              }
+            ],
+            "default": "ENGLISH",
+            "description": "Language for the agent"
+          },
+          "custom_variables": {
+            "description": "Custom variables for the agent",
+            "items": {
+              "type": "string"
+            },
+            "title": "Custom Variables",
+            "type": "array"
+          },
+          "created_at": {
+            "description": "Creation timestamp",
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "created_by": {
+            "description": "Creator email",
+            "format": "email",
+            "required": false,
+            "title": "Created By",
+            "type": "string"
+          },
+          "updated_at": {
+            "description": "Last update timestamp",
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "updated_by": {
+            "description": "Last updater email",
+            "format": "email",
+            "required": false,
+            "title": "Updated By",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "voice_persona",
+          "voice_name",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "AgentListResponseSchema",
+        "type": "object"
+      },
+      "PaginatedResponseSchema_AgentListResponseSchema_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "next": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next"
+          },
+          "previous": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Previous"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/AgentListResponseSchema"
+            },
+            "title": "Results",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "next",
+          "previous",
+          "results"
+        ],
+        "title": "PaginatedResponseSchema[AgentListResponseSchema]",
+        "type": "object"
+      },
+      "AgentDetailResponseSchema": {
+        "description": "Schema for Agent response",
+        "properties": {
+          "id": {
+            "description": "Unique identifier",
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "description": "Agent name",
+            "title": "Name",
+            "type": "string"
+          },
+          "voice_persona": {
+            "description": "Voice persona",
+            "title": "Voice Persona",
+            "type": "string"
+          },
+          "voice_name": {
+            "description": "Voice name for the agent",
+            "title": "Voice Name",
+            "type": "string"
+          },
+          "language": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VoiceCallLanguage"
+              }
+            ],
+            "default": "ENGLISH",
+            "description": "Language for the agent"
+          },
+          "custom_variables": {
+            "description": "Custom variables for the agent",
+            "items": {
+              "type": "string"
+            },
+            "title": "Custom Variables",
+            "type": "array"
+          },
+          "created_by": {
+            "description": "Creator email",
+            "format": "email",
+            "required": false,
+            "title": "Created By",
+            "type": "string"
+          },
+          "created_at": {
+            "description": "Creation timestamp",
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updated_by": {
+            "description": "Last updater email",
+            "format": "email",
+            "required": false,
+            "title": "Updated By",
+            "type": "string"
+          },
+          "updated_at": {
+            "description": "Last update timestamp",
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "agent_prompt": {
+            "description": "Main agent prompt",
+            "title": "Agent Prompt",
+            "type": "string"
+          },
+          "introduction": {
+            "description": "Introduction text",
+            "title": "Introduction",
+            "type": "string"
+          },
+          "introduction_prompt": {
+            "description": "Introduction prompt text",
+            "title": "Introduction Prompt",
+            "type": "string"
+          },
+          "silence_response": {
+            "description": "Response when there's silence",
+            "title": "Silence Response",
+            "type": "string"
+          },
+          "conclusion_response": {
+            "description": "Conclusion response text",
+            "title": "Conclusion Response",
+            "type": "string"
+          },
+          "is_result_generation_enabled": {
+            "description": "Whether result generation is enabled",
+            "title": "Is Result Generation Enabled",
+            "type": "boolean"
+          },
+          "result_prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Result generation prompt",
+            "title": "Result Prompt"
+          },
+          "result_schema": {
+            "additionalProperties": true,
+            "description": "Expected result data schema",
+            "title": "Result Schema",
+            "type": "object"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "voice_persona",
+          "voice_name",
+          "created_at",
+          "updated_at",
+          "agent_prompt",
+          "introduction",
+          "introduction_prompt",
+          "silence_response",
+          "conclusion_response",
+          "is_result_generation_enabled"
+        ],
+        "title": "AgentDetailResponseSchema",
+        "type": "object"
+      },
+      "AgentCreateSchema": {
+        "description": "Schema for creating a new Agent",
+        "properties": {
+          "name": {
+            "description": "Agent name",
+            "title": "Name",
+            "type": "string"
+          },
+          "language": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VoiceCallLanguage"
+              }
+            ],
+            "default": "ENGLISH",
+            "description": "Language for the agent"
+          },
+          "language_code": {
+            "$ref": "#/components/schemas/VoiceCallLanguageCode",
+            "description": "Language code for the agent"
+          },
+          "voice_persona": {
+            "description": "Voice persona",
+            "title": "Voice Persona",
+            "type": "string"
+          },
+          "voice_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Voice name for the agent",
+            "title": "Voice Name"
+          },
+          "agent_prompt": {
+            "description": "Main agent prompt",
+            "title": "Agent Prompt",
+            "type": "string"
+          },
+          "introduction": {
+            "description": "Introduction text",
+            "title": "Introduction",
+            "type": "string"
+          },
+          "introduction_prompt": {
+            "description": "Introduction prompt text",
+            "title": "Introduction Prompt",
+            "type": "string"
+          },
+          "silence_response": {
+            "description": "Response when there's silence",
+            "title": "Silence Response",
+            "type": "string"
+          },
+          "conclusion_response": {
+            "description": "Conclusion response text",
+            "title": "Conclusion Response",
+            "type": "string"
+          },
+          "result_prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Result generation prompt",
+            "title": "Result Prompt"
+          },
+          "result_schema": {
+            "additionalProperties": true,
+            "description": "Expected result data schema",
+            "title": "Result Schema",
+            "type": "object"
+          },
+          "is_result_generation_enabled": {
+            "default": false,
+            "description": "Whether result generation is enabled",
+            "title": "Is Result Generation Enabled",
+            "type": "boolean"
+          },
+          "custom_variables": {
+            "description": "Custom variables for the agent",
+            "items": {
+              "type": "string"
+            },
+            "title": "Custom Variables",
+            "type": "array"
+          }
+        },
+        "required": [
+          "name",
+          "language_code",
+          "voice_persona",
+          "agent_prompt",
+          "introduction",
+          "introduction_prompt",
+          "silence_response",
+          "conclusion_response"
+        ],
+        "title": "AgentCreateSchema",
+        "type": "object"
+      },
+      "VoiceCallLanguageCode": {
+        "enum": [
+          "en",
+          "hi",
+          "ta",
+          "tr",
+          "es",
+          "kn",
+          "mr"
+        ],
+        "title": "VoiceCallLanguageCode",
+        "type": "string"
+      },
+      "AgentUpdateSchema": {
+        "description": "Schema for updating an existing Agent",
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Agent name",
+            "title": "Name"
+          },
+          "voice_persona": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Voice persona",
+            "title": "Voice Persona"
+          },
+          "voice_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Voice name for the agent",
+            "title": "Voice Name"
+          },
+          "agent_prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Main agent prompt",
+            "title": "Agent Prompt"
+          },
+          "introduction": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Introduction text",
+            "title": "Introduction"
+          },
+          "introduction_prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Introduction prompt text",
+            "title": "Introduction Prompt"
+          },
+          "silence_response": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Response when there's silence",
+            "title": "Silence Response"
+          },
+          "conclusion_response": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Conclusion response text",
+            "title": "Conclusion Response"
+          },
+          "result_prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Result generation prompt",
+            "title": "Result Prompt"
+          },
+          "result_schema": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Expected result data schema",
+            "title": "Result Schema"
+          }
+        },
+        "title": "AgentUpdateSchema",
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "JWTAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "servers": []
+}
